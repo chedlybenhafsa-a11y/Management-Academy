@@ -2,7 +2,17 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Management Academy</title>
+
+    <!-- ✅ PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2d6a9f">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="MgtAcademy">
+    <link rel="apple-touch-icon" href="https://via.placeholder.com/192x192/2d6a9f/ffffff?text=MA">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -16,9 +26,44 @@
         .border-steel { border-color: #2d6a9f; }
         select, input { outline: none; }
         select:focus, input:focus { border-color: #2d6a9f; box-shadow: 0 0 0 2px rgba(45,106,159,0.15); }
+
+        /* Bandeau installation PWA */
+        #install-banner {
+            display: none;
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            background: #2d6a9f;
+            color: white;
+            padding: 14px 20px;
+            z-index: 999;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            box-shadow: 0 -4px 16px rgba(0,0,0,0.15);
+        }
+        #install-banner.visible { display: flex; }
     </style>
 </head>
 <body>
+
+    <!-- ✅ BANDEAU INSTALLATION -->
+    <div id="install-banner">
+        <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl flex items-center justify-center font-bold text-sm flex-shrink-0" style="background-color:#c0392b">MA</div>
+            <div>
+                <div class="font-bold text-sm">Installer Management Academy</div>
+                <div class="text-xs opacity-80">Ajoutez l'appli sur votre écran d'accueil</div>
+            </div>
+        </div>
+        <div class="flex gap-2 flex-shrink-0">
+            <button onclick="installerApp()" class="bg-white font-bold text-sm px-4 py-2 rounded-lg" style="color:#2d6a9f">
+                📲 Installer
+            </button>
+            <button onclick="document.getElementById('install-banner').classList.remove('visible')" class="text-white/60 text-sm px-2">
+                ✕
+            </button>
+        </div>
+    </div>
 
     <!-- NAVBAR -->
     <nav style="background-color:#2d6a9f" class="text-white px-6 py-4 shadow-md flex justify-between items-center">
@@ -26,7 +71,6 @@
             <div class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm" style="background-color:#c0392b">MA</div>
             <h1 class="text-lg font-bold tracking-wide">Management Academy</h1>
         </div>
-        <!-- ✅ CORRECTION : remplacé location.reload() par changerEspace() -->
         <button onclick="changerEspace()" class="text-sm font-medium px-4 py-1.5 rounded-full border border-white/40 hover:bg-white/20 transition">
             ⬅ Changer d'espace
         </button>
@@ -143,6 +187,31 @@
         let tousLesCours = [];
         let modeEleve = false;
 
+        // ✅ PWA - Enregistrement Service Worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').catch(() => {});
+        }
+
+        // ✅ PWA - Bouton d'installation
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('install-banner').classList.add('visible');
+        });
+
+        window.installerApp = async function() {
+            if (!deferredPrompt) return;
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            deferredPrompt = null;
+            document.getElementById('install-banner').classList.remove('visible');
+        };
+
+        window.addEventListener('appinstalled', () => {
+            document.getElementById('install-banner').classList.remove('visible');
+        });
+
         onValue(coursRef, (snapshot) => {
             tousLesCours = [];
             if (snapshot.exists()) {
@@ -155,14 +224,10 @@
             console.error("Erreur DB:", error.message);
         });
 
-        // ✅ CORRECTION PRINCIPALE : changerEspace() sans rechargement de page
         window.changerEspace = function() {
-            // Cacher les deux espaces
             document.getElementById('prof-ui').classList.add('hidden');
             document.getElementById('eleve-ui').classList.add('hidden');
-            // Réafficher la sélection de rôle
             document.getElementById('selection-role').style.display = '';
-            // Réinitialiser le mode
             modeEleve = false;
         };
 
