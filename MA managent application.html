@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Management Academy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Raleway', sans-serif; background-color: #f1f3f4; }
+        .card-hover { transition: transform 0.2s, box-shadow 0.2s; }
+        .card-hover:hover { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(0,0,0,0.12); }
+        .btn-primary { background-color: #2d6a9f; }
+        .btn-primary:hover { background-color: #245a8a; }
+        .accent { color: #c0392b; }
+        .border-accent { border-color: #c0392b; }
+        .border-steel { border-color: #2d6a9f; }
+        select, input { outline: none; }
+        select:focus, input:focus { border-color: #2d6a9f; box-shadow: 0 0 0 2px rgba(45,106,159,0.15); }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav style="background-color:#2d6a9f" class="text-white px-6 py-4 shadow-md flex justify-between items-center">
+        <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm" style="background-color:#c0392b">MA</div>
+            <h1 class="text-lg font-bold tracking-wide">Management Academy</h1>
+        </div>
+        <!-- ✅ CORRECTION : remplacé location.reload() par changerEspace() -->
+        <button onclick="changerEspace()" class="text-sm font-medium px-4 py-1.5 rounded-full border border-white/40 hover:bg-white/20 transition">
+            ⬅ Changer d'espace
+        </button>
+    </nav>
+
+    <!-- SÉLECTION DU RÔLE -->
+    <div id="selection-role" class="container mx-auto mt-20 text-center px-4 max-w-2xl">
+        <div class="mb-2 text-sm font-semibold tracking-widest uppercase" style="color:#c0392b">Mr Chedly Ben Hafsa</div>
+        <h2 class="text-3xl font-extrabold mb-2" style="color:#2d6a9f">Espace de Gestion Pédagogique</h2>
+        <p class="text-gray-500 mb-12">Apprendre · Réussir · Grandir</p>
+
+        <div class="flex flex-col sm:flex-row justify-center gap-8">
+            <button onclick="ouvrirEspace('prof')" class="card-hover bg-white p-8 rounded-2xl shadow-md border-t-4 w-60 mx-auto sm:mx-0" style="border-color:#2d6a9f">
+                <div class="text-5xl mb-4">👨‍🏫</div>
+                <span class="font-bold text-lg" style="color:#2d6a9f">Espace Professeur</span>
+                <p class="text-gray-400 text-sm mt-2">Publier et gérer vos cours</p>
+            </button>
+            <button onclick="ouvrirEspace('eleve')" class="card-hover bg-white p-8 rounded-2xl shadow-md border-t-4 w-60 mx-auto sm:mx-0" style="border-color:#c0392b">
+                <div class="text-5xl mb-4">🎓</div>
+                <span class="font-bold text-lg" style="color:#c0392b">Espace Élève</span>
+                <p class="text-gray-400 text-sm mt-2">Consulter vos ressources</p>
+            </button>
+        </div>
+
+        <p class="mt-16 text-xs text-gray-400">Lycée Secondaire de Beni Khyar · Enseignant de Gestion</p>
+    </div>
+
+    <!-- ESPACE PROFESSEUR -->
+    <div id="prof-ui" class="hidden container mx-auto mt-10 p-4 max-w-5xl">
+        <div class="flex items-center gap-3 mb-6">
+            <div class="w-1 h-8 rounded" style="background-color:#2d6a9f"></div>
+            <h2 class="text-xl font-bold" style="color:#2d6a9f">Tableau de bord Enseignant</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                <h3 class="font-bold mb-5 text-gray-700 flex items-center gap-2">
+                    <span class="text-base" style="color:#2d6a9f">📤</span> Publier un document
+                </h3>
+
+                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Classe concernée</label>
+                <select id="classe-concernee" class="w-full border border-gray-200 p-2.5 mb-4 rounded-lg bg-gray-50 text-gray-700">
+                    <option value="2nd-eco">2ème Économie Gestion</option>
+                    <option value="3rd-eco">3ème Économie Gestion</option>
+                    <option value="bac-gestion">Bac Gestion</option>
+                </select>
+
+                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Titre du document</label>
+                <input type="text" id="titre-cours" placeholder="Ex: Le Marketing Mix" class="w-full border border-gray-200 p-2.5 mb-4 rounded-lg text-gray-700">
+
+                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Type</label>
+                <select id="type-cours" class="w-full border border-gray-200 p-2.5 mb-4 rounded-lg bg-gray-50 text-gray-700">
+                    <option value="Cours PDF">📚 Cours PDF</option>
+                    <option value="Exercice">📝 Exercice / Devoir</option>
+                    <option value="Video">🎥 Vidéo pédagogique</option>
+                </select>
+
+                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Lien du document</label>
+                <input type="url" id="lien-cours" placeholder="https://drive.google.com/..." class="w-full border border-gray-200 p-2.5 mb-5 rounded-lg text-gray-700">
+
+                <button onclick="publier()" class="w-full text-white p-3 rounded-xl font-bold transition btn-primary">
+                    ✅ Publier pour la classe
+                </button>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                <h3 class="font-bold mb-5 text-gray-700 flex items-center gap-2">
+                    <span style="color:#2d6a9f">📋</span> Documents publiés
+                </h3>
+                <div id="liste-cours-prof" class="space-y-2 text-sm max-h-96 overflow-y-auto">
+                    <p class="text-gray-400 italic">Chargement...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ESPACE ÉLÈVE -->
+    <div id="eleve-ui" class="hidden container mx-auto mt-10 p-4 max-w-5xl">
+        <div class="flex items-center gap-3 mb-4">
+            <div class="w-1 h-8 rounded" style="background-color:#c0392b"></div>
+            <h2 class="text-xl font-bold" style="color:#c0392b">Mon Espace de Travail</h2>
+        </div>
+
+        <div class="bg-white p-4 rounded-xl shadow-sm mb-6 flex items-center gap-4 border border-gray-100">
+            <label class="font-semibold text-gray-600 whitespace-nowrap text-sm">Ma classe :</label>
+            <select id="classe-eleve" onchange="afficherCoursEleve()" class="border border-gray-200 p-2.5 rounded-lg bg-gray-50 flex-1 text-gray-700">
+                <option value="2nd-eco">2ème Économie Gestion</option>
+                <option value="3rd-eco">3ème Économie Gestion</option>
+                <option value="bac-gestion">Bac Gestion</option>
+            </select>
+        </div>
+
+        <div id="liste-cours-eleve" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyC_11EkKOt9eSE5iNnsQ4swloVO8zvUi9Q",
+            authDomain: "gestiolink-46df5.firebaseapp.com",
+            databaseURL: "https://gestiolink-46df5-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "gestiolink-46df5",
+            storageBucket: "gestiolink-46df5.firebasestorage.app",
+            messagingSenderId: "470383410886",
+            appId: "1:470383410886:web:14a614e030b0028bb821c7"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const coursRef = ref(db, 'cours');
+
+        let tousLesCours = [];
+        let modeEleve = false;
+
+        onValue(coursRef, (snapshot) => {
+            tousLesCours = [];
+            if (snapshot.exists()) {
+                snapshot.forEach((child) => tousLesCours.push(child.val()));
+                tousLesCours.sort((a, b) => b.date - a.date);
+            }
+            if (modeEleve) afficherCoursEleve();
+            else afficherCoursProf();
+        }, (error) => {
+            console.error("Erreur DB:", error.message);
+        });
+
+        // ✅ CORRECTION PRINCIPALE : changerEspace() sans rechargement de page
+        window.changerEspace = function() {
+            // Cacher les deux espaces
+            document.getElementById('prof-ui').classList.add('hidden');
+            document.getElementById('eleve-ui').classList.add('hidden');
+            // Réafficher la sélection de rôle
+            document.getElementById('selection-role').style.display = '';
+            // Réinitialiser le mode
+            modeEleve = false;
+        };
+
+        window.ouvrirEspace = function(role) {
+            document.getElementById('selection-role').style.display = 'none';
+            if (role === 'prof') {
+                modeEleve = false;
+                document.getElementById('eleve-ui').classList.add('hidden');
+                document.getElementById('prof-ui').classList.remove('hidden');
+                afficherCoursProf();
+            } else {
+                modeEleve = true;
+                document.getElementById('prof-ui').classList.add('hidden');
+                document.getElementById('eleve-ui').classList.remove('hidden');
+                afficherCoursEleve();
+            }
+        };
+
+        window.publier = async function() {
+            const titre = document.getElementById('titre-cours').value.trim();
+            const type = document.getElementById('type-cours').value;
+            const classe = document.getElementById('classe-concernee').value;
+            const lien = document.getElementById('lien-cours').value.trim();
+
+            if (!titre) { alert("⚠️ Veuillez indiquer un titre."); return; }
+            if (lien && !lien.startsWith('http')) { alert("⚠️ Le lien doit commencer par https://"); return; }
+
+            try {
+                await push(coursRef, { titre, type, classe, lien: lien || null, date: new Date().getTime() });
+                document.getElementById('titre-cours').value = '';
+                document.getElementById('lien-cours').value = '';
+                alert("✅ Publié !");
+            } catch(e) {
+                alert("❌ Erreur : " + e.message);
+            }
+        };
+
+        window.afficherCoursEleve = function() {
+            const selectEl = document.getElementById('classe-eleve');
+            const liste = document.getElementById('liste-cours-eleve');
+            if (!selectEl || !liste) return;
+
+            const classeChoisie = selectEl.value;
+            const coursFiltres = tousLesCours.filter(c => c.classe === classeChoisie);
+
+            liste.innerHTML = '';
+            if (coursFiltres.length === 0) {
+                liste.innerHTML = `
+                    <div class="col-span-3 bg-white rounded-xl p-10 text-center shadow-sm border border-gray-100">
+                        <div class="text-5xl mb-3">📭</div>
+                        <p class="font-semibold text-gray-500">Aucun document disponible pour cette classe.</p>
+                        <p class="text-xs text-gray-400 mt-1">Le professeur n'a pas encore publié de ressources.</p>
+                    </div>`;
+                return;
+            }
+
+            const config = {
+                "Cours PDF":  { icone: "📚", barre: "#2d6a9f", btn: "#2d6a9f" },
+                "Exercice":   { icone: "📝", barre: "#c0392b", btn: "#c0392b" },
+                "Video":      { icone: "🎥", barre: "#6c757d", btn: "#6c757d" }
+            };
+
+            coursFiltres.forEach(data => {
+                const cfg = config[data.type] || { icone: "📄", barre: "#2d6a9f", btn: "#2d6a9f" };
+                const boutonLien = data.lien
+                    ? `<a href="${data.lien}" target="_blank" rel="noopener noreferrer"
+                          style="background-color:${cfg.btn}"
+                          class="mt-auto inline-block w-full text-center py-2 px-4 rounded-lg text-sm font-bold text-white transition hover:opacity-90">
+                          🔗 Ouvrir le document
+                       </a>`
+                    : `<span class="mt-auto text-xs text-gray-300 italic text-center block pt-3">Pas de lien disponible</span>`;
+
+                liste.innerHTML += `
+                    <div class="card-hover bg-white p-5 rounded-2xl shadow-sm border border-gray-100 border-t-4 flex flex-col" style="border-top-color:${cfg.barre}">
+                        <div class="text-3xl mb-3">${cfg.icone}</div>
+                        <h4 class="font-bold text-gray-700 flex-1">${data.titre}</h4>
+                        <p class="text-xs text-gray-400 mt-1 mb-3">${data.type}</p>
+                        ${boutonLien}
+                    </div>`;
+            });
+        };
+
+        function afficherCoursProf() {
+            const liste = document.getElementById('liste-cours-prof');
+            if (!liste) return;
+
+            const classeLabels = { "2nd-eco": "2ème Éco", "3rd-eco": "3ème Éco", "bac-gestion": "Bac Gestion" };
+            liste.innerHTML = tousLesCours.length === 0
+                ? '<p class="text-gray-400 italic">Aucun document publié.</p>' : '';
+
+            tousLesCours.forEach(data => {
+                const lienHtml = data.lien
+                    ? `<a href="${data.lien}" target="_blank" class="text-xs font-semibold ml-2 hover:underline" style="color:#2d6a9f">🔗 Voir</a>`
+                    : `<span class="text-gray-300 text-xs ml-2">sans lien</span>`;
+
+                liste.innerHTML += `
+                    <div class="p-3 border-b border-gray-100 flex justify-between items-center gap-2">
+                        <div>
+                            <span class="font-semibold text-gray-700">${data.titre}</span>
+                            ${lienHtml}
+                        </div>
+                        <span class="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded-full whitespace-nowrap">
+                            ${data.type} · ${classeLabels[data.classe] || data.classe}
+                        </span>
+                    </div>`;
+            });
+        }
+    </script>
+</body>
+</html>
