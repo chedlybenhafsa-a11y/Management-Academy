@@ -27,6 +27,20 @@
         select, input { outline: none; }
         select:focus, input:focus { border-color: #2d6a9f; box-shadow: 0 0 0 2px rgba(45,106,159,0.15); }
 
+        /* Bandeau iOS */
+        #ios-banner {
+            display: none;
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            background: white;
+            padding: 16px 20px;
+            z-index: 999;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
+            border-top: 3px solid #2d6a9f;
+            border-radius: 16px 16px 0 0;
+        }
+        #ios-banner.visible { display: block; }
+
         /* Bandeau installation PWA */
         #install-banner {
             display: none;
@@ -62,6 +76,32 @@
             <button onclick="document.getElementById('install-banner').classList.remove('visible')" class="text-white/60 text-sm px-2">
                 ✕
             </button>
+        </div>
+    </div>
+
+    <!-- BANDEAU iOS -->
+    <div id="ios-banner">
+        <div class="flex justify-between items-start mb-3">
+            <div class="font-bold text-sm" style="color:#2d6a9f">📲 Installer l'application</div>
+            <button onclick="document.getElementById('ios-banner').classList.remove('visible')" class="text-gray-400 text-lg leading-none">✕</button>
+        </div>
+        <div class="flex items-center gap-3 mb-2">
+            <div class="flex items-center justify-center w-8 h-8 rounded-lg text-white font-bold text-xs flex-shrink-0" style="background:#2d6a9f">MA</div>
+            <p class="text-sm text-gray-600">Pour ajouter l'application à votre écran d'accueil :</p>
+        </div>
+        <div class="space-y-2 text-sm text-gray-700">
+            <div class="flex items-center gap-2 bg-gray-50 rounded-lg px-3 py-2">
+                <span class="text-lg">1️⃣</span>
+                <span>Appuyez sur <strong>le bouton Partager</strong> <span class="text-blue-500">⬆️</span> en bas de Safari</span>
+            </div>
+            <div class="flex items-center gap-2 bg-gray-50 rounded-lg px-3 py-2">
+                <span class="text-lg">2️⃣</span>
+                <span>Faites défiler et appuyez sur <strong>"Sur l'écran d'accueil"</strong> ➕</span>
+            </div>
+            <div class="flex items-center gap-2 bg-gray-50 rounded-lg px-3 py-2">
+                <span class="text-lg">3️⃣</span>
+                <span>Appuyez sur <strong>"Ajouter"</strong> en haut à droite</span>
+            </div>
         </div>
     </div>
 
@@ -216,6 +256,15 @@
             deferredPrompt = null;
             document.getElementById('install-banner').classList.remove('visible');
         };
+
+        // ✅ Détection iPhone - afficher instructions iOS
+        const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+        const isInStandaloneMode = window.navigator.standalone;
+        if (isIOS && !isInStandaloneMode) {
+            setTimeout(() => {
+                document.getElementById('ios-banner').classList.add('visible');
+            }, 2000);
+        }
 
         window.addEventListener('appinstalled', () => {
             document.getElementById('install-banner').classList.remove('visible');
