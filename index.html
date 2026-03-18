@@ -79,6 +79,27 @@
         </div>
     </div>
 
+    <!-- MODAL MOT DE PASSE -->
+    <div id="modal-mdp" class="hidden fixed inset-0 z-50 flex items-center justify-center" style="background:rgba(0,0,0,0.5)">
+        <div class="bg-white rounded-2xl shadow-xl p-8 mx-4 w-full max-w-sm text-center">
+            <div class="text-4xl mb-3">🔒</div>
+            <h3 class="font-bold text-lg mb-1" style="color:#2d6a9f">Espace Professeur</h3>
+            <p class="text-gray-400 text-sm mb-5">Accès réservé à l'enseignant</p>
+            <input type="password" id="input-mdp" placeholder="Mot de passe" 
+                class="w-full border border-gray-200 p-3 rounded-xl text-center text-gray-700 mb-3 text-lg tracking-widest"
+                onkeydown="if(event.key==='Enter') verifierMdp()">
+            <div id="erreur-mdp" class="hidden text-sm mb-3 font-semibold" style="color:#c0392b">
+                ❌ Mot de passe incorrect
+            </div>
+            <button onclick="verifierMdp()" class="w-full text-white p-3 rounded-xl font-bold transition btn-primary mb-3">
+                Accéder
+            </button>
+            <button onclick="fermerModal()" class="w-full text-gray-400 text-sm py-2 hover:text-gray-600 transition">
+                Annuler
+            </button>
+        </div>
+    </div>
+
     <!-- BANDEAU iOS -->
     <div id="ios-banner">
         <div class="flex justify-between items-start mb-3">
@@ -123,10 +144,11 @@
         <p class="text-gray-500 mb-12">Apprendre · Réussir · Grandir</p>
 
         <div class="flex flex-col sm:flex-row justify-center gap-8">
-            <button onclick="ouvrirEspace('prof')" class="card-hover bg-white p-8 rounded-2xl shadow-md border-t-4 w-60 mx-auto sm:mx-0" style="border-color:#2d6a9f">
+            <button onclick="demanderMotDePasse()" class="card-hover bg-white p-8 rounded-2xl shadow-md border-t-4 w-60 mx-auto sm:mx-0" style="border-color:#2d6a9f">
                 <div class="text-5xl mb-4">👨‍🏫</div>
                 <span class="font-bold text-lg" style="color:#2d6a9f">Espace Professeur</span>
-                <p class="text-gray-400 text-sm mt-2">Publier et gérer vos cours</p>
+                <p class="text-gray-400 text-sm mt-2">Accès réservé · Enseignant</p>
+                <p class="text-xs mt-1" style="color:#2d6a9f">🔒 Protégé</p>
             </button>
             <button onclick="ouvrirEspace('eleve')" class="card-hover bg-white p-8 rounded-2xl shadow-md border-t-4 w-60 mx-auto sm:mx-0" style="border-color:#c0392b">
                 <div class="text-5xl mb-4">🎓</div>
@@ -393,6 +415,32 @@
                     </div>`;
             });
         }
+
+        // 🔒 MOT DE PASSE ESPACE PROF
+        const MOT_DE_PASSE = "chedly1979";
+
+        window.demanderMotDePasse = function() {
+            document.getElementById('modal-mdp').classList.remove('hidden');
+            document.getElementById('input-mdp').value = '';
+            document.getElementById('erreur-mdp').classList.add('hidden');
+            setTimeout(() => document.getElementById('input-mdp').focus(), 100);
+        };
+
+        window.verifierMdp = function() {
+            const saisi = document.getElementById('input-mdp').value;
+            if (saisi === MOT_DE_PASSE) {
+                document.getElementById('modal-mdp').classList.add('hidden');
+                ouvrirEspace('prof');
+            } else {
+                document.getElementById('erreur-mdp').classList.remove('hidden');
+                document.getElementById('input-mdp').value = '';
+                document.getElementById('input-mdp').focus();
+            }
+        };
+
+        window.fermerModal = function() {
+            document.getElementById('modal-mdp').classList.add('hidden');
+        };
 
         window.afficherInstall = function() {
             const box = document.getElementById('install-instructions');
