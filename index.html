@@ -393,6 +393,23 @@
                     </div>`;
             });
         }
+
+        window.afficherInstall = function() {
+            const box = document.getElementById('install-instructions');
+            const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase());
+            box.classList.remove('hidden');
+            if (isIOS) {
+                document.getElementById('instructions-ios').classList.remove('hidden');
+                document.getElementById('instructions-android').classList.add('hidden');
+            } else {
+                document.getElementById('instructions-android').classList.remove('hidden');
+                document.getElementById('instructions-ios').classList.add('hidden');
+            }
+            // If Android PWA prompt available, trigger it
+            if (!isIOS && deferredPrompt) {
+                deferredPrompt.prompt();
+            }
+        };
     </script>
 </body>
 </html>
