@@ -79,6 +79,18 @@
         </div>
     </div>
 
+    <!-- NOTIFICATION BANNER IN-APP -->
+    <div id="notif-banner" class="hidden fixed top-20 left-0 right-0 z-50 flex justify-center px-4">
+        <div class="bg-white rounded-2xl shadow-xl border-l-4 px-5 py-4 max-w-sm w-full flex items-start gap-3" style="border-color:#2d6a9f">
+            <div class="text-2xl">📚</div>
+            <div class="flex-1">
+                <div id="notif-titre" class="font-bold text-sm" style="color:#2d6a9f"></div>
+                <div id="notif-body" class="text-xs text-gray-500 mt-0.5"></div>
+            </div>
+            <button onclick="document.getElementById('notif-banner').classList.add('hidden')" class="text-gray-300 hover:text-gray-500">✕</button>
+        </div>
+    </div>
+
     <!-- MODAL MOT DE PASSE -->
     <div id="modal-mdp" class="hidden fixed inset-0 z-50 flex items-center justify-center" style="background:rgba(0,0,0,0.5)">
         <div class="bg-white rounded-2xl shadow-xl p-8 mx-4 w-full max-w-sm text-center">
@@ -235,11 +247,20 @@
         </div>
 
         <div id="liste-cours-eleve" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+
+        <!-- Bouton activer notifications élève -->
+        <div class="mt-8 text-center">
+            <button id="btn-notif" onclick="activerNotifEleve()" class="inline-flex items-center gap-2 px-5 py-3 rounded-full text-white text-sm font-bold shadow-md transition hover:opacity-90" style="background-color:#c0392b">
+                🔔 Recevoir les notifications de nouveaux documents
+            </button>
+            <p id="notif-status" class="text-xs text-gray-400 mt-2"></p>
+        </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyC_11EkKOt9eSE5iNnsQ4swloVO8zvUi9Q",
@@ -254,6 +275,8 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
         const coursRef = ref(db, 'cours');
+        const messaging = getMessaging(app);
+        const VAPID_KEY = "BO6HGEmVqrrzKPkaphMs6jCCccpw4hCRsWzMSnORea1jEvLVAbLu1W3vmEnds5V1QAmPyJDqgxLsHc2ownTN5Wk";
 
         let tousLesCours = [];
         let modeEleve = false;
@@ -278,6 +301,41 @@
             deferredPrompt = null;
             document.getElementById('install-banner').classList.remove('visible');
         };
+
+        // ✅ NOTIFICATIONS PUSH
+        async function abonnerNotifications() {
+            try {
+                const permission = await Notification.requestPermission();
+                if (permission === 'granted') {
+                    const token = await getToken(messaging, { 
+                        vapidKey: VAPID_KEY,
+                        serviceWorkerRegistration: await navigator.serviceWorker.ready
+                    });
+                    if (token) {
+                        // Sauvegarder le token dans Firebase
+                        const tokensRef = ref(db, 'tokens/' + token.substring(0, 20));
+                        await push(tokensRef, { token, date: Date.now() });
+                        console.log("✅ Notifications activées");
+                        return true;
+                    }
+                }
+            } catch(e) {
+                console.log("Notifications non disponibles:", e.message);
+            }
+            return false;
+        }
+
+        // Recevoir notification quand app ouverte
+        onMessage(messaging, (payload) => {
+            const { title, body } = payload.notification || {};
+            if (title) {
+                const notif = document.getElementById('notif-banner');
+                document.getElementById('notif-titre').textContent = title;
+                document.getElementById('notif-body').textContent = body || '';
+                notif.classList.remove('hidden');
+                setTimeout(() => notif.classList.add('hidden'), 6000);
+            }
+        });
 
         // ✅ Détection iPhone - afficher instructions iOS
         const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
@@ -340,6 +398,8 @@
                 document.getElementById('titre-cours').value = '';
                 document.getElementById('lien-cours').value = '';
                 alert("✅ Publié !");
+                // Envoyer notification via Firebase Function (ou API)
+                envoyerNotification(titre, type);
             } catch(e) {
                 alert("❌ Erreur : " + e.message);
             }
@@ -416,6 +476,21 @@
             });
         }
 
+        // 📣 Envoyer notification aux élèves
+        async function envoyerNotification(titre, type) {
+            try {
+                // Sauvegarde dans Firebase pour déclencher une notification
+                const notifsRef = ref(db, 'notifications');
+                await push(notifsRef, {
+                    title: "📚 Nouveau document publié !",
+                    body: `${type} : ${titre}`,
+                    date: Date.now()
+                });
+            } catch(e) {
+                console.log("Notification non envoyée:", e.message);
+            }
+        }
+
         // 🔒 MOT DE PASSE ESPACE PROF
         const MOT_DE_PASSE = "chedly1979";
 
@@ -440,6 +515,24 @@
 
         window.fermerModal = function() {
             document.getElementById('modal-mdp').classList.add('hidden');
+        };
+
+        // Activer notifications depuis espace élève
+        window.activerNotifEleve = async function() {
+            const btn = document.getElementById('btn-notif');
+            const status = document.getElementById('notif-status');
+            btn.disabled = true;
+            btn.textContent = '⏳ Activation...';
+            const ok = await abonnerNotifications();
+            if (ok) {
+                btn.textContent = '✅ Notifications activées !';
+                btn.style.backgroundColor = '#27ae60';
+                status.textContent = 'Vous recevrez une notification à chaque nouveau document publié.';
+            } else {
+                btn.textContent = '❌ Impossible d'activer';
+                btn.disabled = false;
+                status.textContent = 'Vérifiez que les notifications sont autorisées dans vos réglages.';
+            }
         };
 
         window.afficherInstall = function() {
