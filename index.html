@@ -6,386 +6,262 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Raleway', sans-serif; background-color: #f1f3f4; }
+        body { font-family: "Raleway", sans-serif; background-color: #f1f3f4; }
         .card-hover { transition: transform 0.2s, box-shadow 0.2s; }
         .card-hover:hover { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(0,0,0,0.12); }
         select:focus, input:focus { border-color: #2d6a9f; box-shadow: 0 0 0 2px rgba(45,106,159,0.15); }
-        .spinner { border: 3px solid #f1f3f4; border-top: 3px solid #2d6a9f; border-radius: 50%; width: 28px; height: 28px; animation: spin 0.8s linear infinite; }
-        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
-    <nav style="background-color:#2d6a9f" class="text-white px-6 py-4 shadow-md flex justify-between items-center">
-        <div class="flex items-center gap-3">
-            <div class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm" style="background-color:#c0392b">MA</div>
-            <h1 class="text-lg font-bold tracking-wide">Management Academy</h1>
-        </div>
-        <button onclick="location.reload()" class="text-sm font-medium px-4 py-1.5 rounded-full border border-white/40 hover:bg-white/20 transition">
-            ⬅ Changer d'espace
+<nav style="background-color:#2d6a9f" class="text-white px-6 py-4 shadow-md flex justify-between items-center">
+    <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm" style="background-color:#c0392b">MA</div>
+        <h1 class="text-lg font-bold tracking-wide">Management Academy</h1>
+    </div>
+    <button onclick="location.reload()" class="text-sm font-medium px-4 py-1.5 rounded-full border border-white/40 hover:bg-white/20 transition">
+        Changer d espace
+    </button>
+</nav>
+
+<!-- SELECTION ROLE -->
+<div id="selection-role" class="container mx-auto mt-20 text-center px-4 max-w-2xl">
+    <div class="mb-2 text-sm font-semibold tracking-widest uppercase" style="color:#c0392b">Mr Chedly Ben Hafsa</div>
+    <h2 class="text-3xl font-extrabold mb-2" style="color:#2d6a9f">Espace de Gestion Pedagogique</h2>
+    <p class="text-gray-500 mb-12">Apprendre - Reussir - Grandir</p>
+    <div class="flex flex-col sm:flex-row justify-center gap-8">
+        <button onclick="ouvrirEspace('prof')" class="card-hover bg-white p-8 rounded-2xl shadow-md border-t-4 w-60 mx-auto sm:mx-0" style="border-color:#2d6a9f">
+            <div class="text-5xl mb-4">&#128104;&#8205;&#127979;</div>
+            <span class="font-bold text-lg" style="color:#2d6a9f">Espace Professeur</span>
+            <p class="text-gray-400 text-sm mt-2">Publier et gerer vos cours</p>
         </button>
-    </nav>
-
-    <!-- SÉLECTION DU RÔLE -->
-    <div id="selection-role" class="container mx-auto mt-20 text-center px-4 max-w-2xl">
-        <div class="mb-2 text-sm font-semibold tracking-widest uppercase" style="color:#c0392b">Mr Chedly Ben Hafsa</div>
-        <h2 class="text-3xl font-extrabold mb-2" style="color:#2d6a9f">Espace de Gestion Pédagogique</h2>
-        <p class="text-gray-500 mb-12">Apprendre · Réussir · Grandir</p>
-        <div class="flex flex-col sm:flex-row justify-center gap-8">
-            <button onclick="ouvrirEspace('prof')" class="card-hover bg-white p-8 rounded-2xl shadow-md border-t-4 w-60 mx-auto sm:mx-0" style="border-color:#2d6a9f">
-                <div class="text-5xl mb-4">👨‍🏫</div>
-                <span class="font-bold text-lg" style="color:#2d6a9f">Espace Professeur</span>
-                <p class="text-gray-400 text-sm mt-2">Publier et gérer vos cours</p>
-            </button>
-            <button onclick="ouvrirEspace('eleve')" class="card-hover bg-white p-8 rounded-2xl shadow-md border-t-4 w-60 mx-auto sm:mx-0" style="border-color:#c0392b">
-                <div class="text-5xl mb-4">🎓</div>
-                <span class="font-bold text-lg" style="color:#c0392b">Espace Élève</span>
-                <p class="text-gray-400 text-sm mt-2">Consulter vos ressources</p>
-            </button>
-        </div>
-        <p class="mt-16 text-xs text-gray-400">Lycée Secondaire de Beni Khyar · Enseignant de Gestion</p>
+        <button onclick="ouvrirEspace('eleve')" class="card-hover bg-white p-8 rounded-2xl shadow-md border-t-4 w-60 mx-auto sm:mx-0" style="border-color:#c0392b">
+            <div class="text-5xl mb-4">&#127891;</div>
+            <span class="font-bold text-lg" style="color:#c0392b">Espace Eleve</span>
+            <p class="text-gray-400 text-sm mt-2">Consulter vos ressources</p>
+        </button>
     </div>
+    <p class="mt-16 text-xs text-gray-400">Lycee Secondaire de Beni Khyar - Enseignant de Gestion</p>
+</div>
 
-    <!-- ESPACE PROFESSEUR -->
-    <div id="prof-ui" class="hidden container mx-auto mt-10 p-4 max-w-5xl">
-        <div class="flex items-center gap-3 mb-6">
-            <div class="w-1 h-8 rounded" style="background-color:#2d6a9f"></div>
-            <h2 class="text-xl font-bold" style="color:#2d6a9f">Tableau de bord Enseignant</h2>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <!-- Formulaire publication manuelle -->
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                <h3 class="font-bold mb-1 text-gray-700">📤 Publier un document manuellement</h3>
-                <p class="text-xs text-gray-400 mb-5">Pour les documents hors Google Drive</p>
-
-                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Classe</label>
-                <select id="classe-concernee" class="w-full border border-gray-200 p-2.5 mb-4 rounded-lg bg-gray-50 text-gray-700">
-                    <option value="2nd-eco">2ème Économie Gestion</option>
-                    <option value="3rd-eco">3ème Économie Gestion</option>
-                    <option value="bac-gestion">Bac Gestion</option>
-                </select>
-
-                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Titre</label>
-                <input type="text" id="titre-cours" placeholder="Ex: Le Marketing Mix" class="w-full border border-gray-200 p-2.5 mb-4 rounded-lg text-gray-700">
-
-                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Type</label>
-                <select id="type-cours" class="w-full border border-gray-200 p-2.5 mb-4 rounded-lg bg-gray-50 text-gray-700">
-                    <option value="Cours PDF">📚 Cours PDF</option>
-                    <option value="Exercice">📝 Exercice / Devoir</option>
-                    <option value="Video">🎥 Vidéo pédagogique</option>
-                </select>
-
-                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Lien</label>
-                <input type="url" id="lien-cours" placeholder="https://drive.google.com/..." class="w-full border border-gray-200 p-2.5 mb-5 rounded-lg text-gray-700">
-
-                <button onclick="publier()" class="w-full text-white p-3 rounded-xl font-bold transition" style="background-color:#2d6a9f">
-                    ✅ Publier
-                </button>
-            </div>
-
-            <!-- Documents publiés manuellement -->
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                <h3 class="font-bold mb-1 text-gray-700">📋 Documents publiés manuellement</h3>
-                <p class="text-xs text-gray-400 mb-4">Les documents Drive s'affichent automatiquement côté élève</p>
-                <div id="liste-cours-prof" class="space-y-2 text-sm max-h-80 overflow-y-auto">
-                    <p class="text-gray-400 italic">Chargement...</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Info Drive -->
-        <div class="mt-6 bg-blue-50 border border-blue-200 rounded-xl p-4 flex gap-3 items-start">
-            <span class="text-2xl">📁</span>
-            <div>
-                <p class="font-bold text-blue-800 text-sm">Dossiers Google Drive connectés automatiquement</p>
-                <p class="text-blue-600 text-xs mt-1">Les fichiers ajoutés dans ces dossiers apparaissent automatiquement côté élève sans aucune saisie.</p>
-                <div class="mt-2 space-y-1 text-xs text-blue-700 font-mono">
-                    <div>📂 2ème Éco Gestion → dossier Drive connecté ✅</div>
-                    <div>📂 3ème Éco Gestion → dossier Drive connecté ✅</div>
-                    <div>📂 Bac Gestion → dossier Drive connecté ✅</div>
-                </div>
-            </div>
-        </div>
+<!-- ESPACE PROFESSEUR -->
+<div id="prof-ui" class="hidden container mx-auto mt-10 p-4 max-w-5xl">
+    <div class="flex items-center gap-3 mb-6">
+        <div class="w-1 h-8 rounded" style="background-color:#2d6a9f"></div>
+        <h2 class="text-xl font-bold" style="color:#2d6a9f">Tableau de bord Enseignant</h2>
     </div>
-
-    <!-- ESPACE ÉLÈVE -->
-    <div id="eleve-ui" class="hidden container mx-auto mt-10 p-4 max-w-5xl">
-        <div class="flex items-center gap-3 mb-4">
-            <div class="w-1 h-8 rounded" style="background-color:#c0392b"></div>
-            <h2 class="text-xl font-bold" style="color:#c0392b">Mon Espace de Travail</h2>
-        </div>
-
-        <div class="bg-white p-4 rounded-xl shadow-sm mb-6 flex items-center gap-4 border border-gray-100">
-            <label class="font-semibold text-gray-600 whitespace-nowrap text-sm">Ma classe :</label>
-            <select id="classe-eleve" onchange="changerClasse()" class="border border-gray-200 p-2.5 rounded-lg bg-gray-50 flex-1 text-gray-700">
-                <option value="2nd-eco">2ème Économie Gestion</option>
-                <option value="3rd-eco">3ème Économie Gestion</option>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+            <h3 class="font-bold mb-1 text-gray-700">&#128228; Publier un document</h3>
+            <p class="text-xs text-gray-400 mb-5">Pour les documents hors Google Drive</p>
+            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Classe</label>
+            <select id="classe-concernee" class="w-full border border-gray-200 p-2.5 mb-4 rounded-lg bg-gray-50 text-gray-700">
+                <option value="2nd-eco">2eme Economie Gestion</option>
+                <option value="3rd-eco">3eme Economie Gestion</option>
                 <option value="bac-gestion">Bac Gestion</option>
             </select>
-        </div>
-
-        <!-- Onglets sources -->
-        <div class="flex gap-2 mb-6">
-            <button id="tab-drive" onclick="afficherOnglet('drive')" class="px-4 py-2 rounded-full text-sm font-bold text-white transition" style="background-color:#2d6a9f">
-                📁 Dossier Drive
+            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Titre</label>
+            <input type="text" id="titre-cours" placeholder="Ex: Le Marketing Mix" class="w-full border border-gray-200 p-2.5 mb-4 rounded-lg text-gray-700">
+            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Type</label>
+            <select id="type-cours" class="w-full border border-gray-200 p-2.5 mb-4 rounded-lg bg-gray-50 text-gray-700">
+                <option value="Cours PDF">Cours PDF</option>
+                <option value="Exercice">Exercice / Devoir</option>
+                <option value="Video">Video pedagogique</option>
+            </select>
+            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Lien</label>
+            <input type="url" id="lien-cours" placeholder="https://drive.google.com/..." class="w-full border border-gray-200 p-2.5 mb-5 rounded-lg text-gray-700">
+            <button onclick="publier()" class="w-full text-white p-3 rounded-xl font-bold transition" style="background-color:#2d6a9f">
+                Publier
             </button>
-            <button id="tab-manual" onclick="afficherOnglet('manual')" class="px-4 py-2 rounded-full text-sm font-bold bg-white text-gray-500 border border-gray-200 transition hover:border-gray-400">
-                📋 Autres documents
-            </button>
         </div>
-
-        <!-- Contenu Drive -->
-        <div id="contenu-drive">
-            <div id="liste-drive" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
-        </div>
-
-        <!-- Contenu Manuel -->
-        <div id="contenu-manual" class="hidden">
-            <div id="liste-cours-eleve" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+            <h3 class="font-bold mb-5 text-gray-700">Documents publies manuellement</h3>
+            <div id="liste-cours-prof" class="space-y-2 text-sm max-h-96 overflow-y-auto">
+                <p class="text-gray-400 italic">Chargement...</p>
+            </div>
         </div>
     </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+    <!-- Info dossiers Drive -->
+    <div class="mt-6 bg-blue-50 border border-blue-200 rounded-xl p-5">
+        <p class="font-bold text-blue-800 mb-3">&#128193; Dossiers Google Drive connectes</p>
+        <p class="text-blue-600 text-xs mb-4">Les eleves accedent directement a ces dossiers Drive en un clic.</p>
+        <div class="space-y-2">
+            <div class="flex items-center justify-between bg-white rounded-lg p-3 border border-blue-100">
+                <span class="font-semibold text-blue-700 text-sm">2eme Economie Gestion</span>
+                <a href="https://drive.google.com/drive/folders/1CoXbWBDUzUqkXhtcTj39yMYGgoWMkktL" target="_blank"
+                   class="text-xs px-3 py-1 rounded-full text-white font-bold" style="background-color:#2d6a9f">
+                   Voir le dossier
+                </a>
+            </div>
+            <div class="flex items-center justify-between bg-white rounded-lg p-3 border border-blue-100">
+                <span class="font-semibold text-blue-700 text-sm">3eme Economie Gestion</span>
+                <a href="https://drive.google.com/drive/folders/1oxDFw6xgccN8f4Iw2Idod9A3QkG-TqQj" target="_blank"
+                   class="text-xs px-3 py-1 rounded-full text-white font-bold" style="background-color:#2d6a9f">
+                   Voir le dossier
+                </a>
+            </div>
+            <div class="flex items-center justify-between bg-white rounded-lg p-3 border border-blue-100">
+                <span class="font-semibold text-blue-700 text-sm">Bac Gestion</span>
+                <a href="https://drive.google.com/drive/folders/1IpWAipw1_PryyZyZR5PNW4jtiztIvSRE" target="_blank"
+                   class="text-xs px-3 py-1 rounded-full text-white font-bold" style="background-color:#2d6a9f">
+                   Voir le dossier
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyC_11EkKOt9eSE5iNnsQ4swloVO8zvUi9Q",
-            authDomain: "gestiolink-46df5.firebaseapp.com",
-            databaseURL: "https://gestiolink-46df5-default-rtdb.europe-west1.firebasedatabase.app",
-            projectId: "gestiolink-46df5",
-            storageBucket: "gestiolink-46df5.firebasestorage.app",
-            messagingSenderId: "470383410886",
-            appId: "1:470383410886:web:14a614e030b0028bb821c7"
-        };
+<!-- ESPACE ELEVE -->
+<div id="eleve-ui" class="hidden container mx-auto mt-10 p-4 max-w-5xl">
+    <div class="flex items-center gap-3 mb-6">
+        <div class="w-1 h-8 rounded" style="background-color:#c0392b"></div>
+        <h2 class="text-xl font-bold" style="color:#c0392b">Mon Espace de Travail</h2>
+    </div>
 
-        // IDs des dossiers Google Drive par classe
-        const DRIVE_FOLDERS = {
-            "2nd-eco":    "1CoXbWBDUzUqkXhtcTj39yMYGgoWMkktL",
-            "3rd-eco":    "1oxDFw6xgccN8f4Iw2Idod9A3QkG-TqQj",
-            "bac-gestion":"1IpWAipw1_PryyZyZR5PNW4jtiztIvSRE"
-        };
+    <div class="bg-white p-4 rounded-xl shadow-sm mb-6 flex items-center gap-4 border border-gray-100">
+        <label class="font-semibold text-gray-600 whitespace-nowrap text-sm">Ma classe :</label>
+        <select id="classe-eleve" onchange="afficherCoursEleve()" class="border border-gray-200 p-2.5 rounded-lg bg-gray-50 flex-1 text-gray-700">
+            <option value="2nd-eco">2eme Economie Gestion</option>
+            <option value="3rd-eco">3eme Economie Gestion</option>
+            <option value="bac-gestion">Bac Gestion</option>
+        </select>
+    </div>
 
-        // Clé API Google Drive (lecture publique uniquement)
-        const DRIVE_API_KEY = "AIzaSyC_11EkKOt9eSE5iNnsQ4swloVO8zvUi9Q";
+    <!-- Carte Drive en haut - acces direct au dossier -->
+    <div id="carte-drive" class="mb-6 p-6 rounded-2xl text-white shadow-md flex flex-col sm:flex-row items-center justify-between gap-4" style="background-color:#2d6a9f">
+        <div>
+            <p class="text-white/70 text-xs uppercase tracking-widest mb-1">Documents a imprimer</p>
+            <h3 class="text-xl font-bold">Dossier Google Drive</h3>
+            <p class="text-white/80 text-sm mt-1">Tous les documents de ta classe disponibles en un clic</p>
+        </div>
+        <a id="lien-drive" href="#" target="_blank" rel="noopener noreferrer"
+           class="whitespace-nowrap px-6 py-3 rounded-xl font-bold text-sm transition hover:opacity-90 flex items-center gap-2"
+           style="background-color:#c0392b">
+            &#128193; Ouvrir le dossier Drive
+        </a>
+    </div>
 
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
-        const coursRef = ref(db, 'cours');
+    <!-- Documents publies manuellement -->
+    <div class="flex items-center gap-3 mb-4">
+        <div class="w-1 h-6 rounded" style="background-color:#c0392b"></div>
+        <h3 class="font-bold text-gray-600">Autres ressources publiees</h3>
+    </div>
+    <div id="liste-cours-eleve" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+</div>
 
-        let tousLesCours = [];
-        let modeEleve = false;
-        let ongletActif = 'drive';
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-        // Écoute Firebase
-        onValue(coursRef, (snapshot) => {
-            tousLesCours = [];
-            if (snapshot.exists()) {
-                snapshot.forEach((child) => tousLesCours.push(child.val()));
-                tousLesCours.sort((a, b) => b.date - a.date);
-            }
-            if (modeEleve) afficherCoursManuel();
-            else afficherCoursProf();
-        }, (error) => console.error("Erreur DB:", error.message));
+    const firebaseConfig = {
+        apiKey: "AIzaSyC_11EkKOt9eSE5iNnsQ4swloVO8zvUi9Q",
+        authDomain: "gestiolink-46df5.firebaseapp.com",
+        databaseURL: "https://gestiolink-46df5-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "gestiolink-46df5",
+        storageBucket: "gestiolink-46df5.firebasestorage.app",
+        messagingSenderId: "470383410886",
+        appId: "1:470383410886:web:14a614e030b0028bb821c7"
+    };
 
-        window.ouvrirEspace = function(role) {
-            document.getElementById('selection-role').style.display = 'none';
-            if (role === 'prof') {
-                modeEleve = false;
-                document.getElementById('prof-ui').classList.remove('hidden');
-            } else {
-                modeEleve = true;
-                document.getElementById('eleve-ui').classList.remove('hidden');
-                changerClasse();
-            }
-        };
+    const DRIVE_FOLDERS = {
+        "2nd-eco":     "https://drive.google.com/drive/folders/1CoXbWBDUzUqkXhtcTj39yMYGgoWMkktL",
+        "3rd-eco":     "https://drive.google.com/drive/folders/1oxDFw6xgccN8f4Iw2Idod9A3QkG-TqQj",
+        "bac-gestion": "https://drive.google.com/drive/folders/1IpWAipw1_PryyZyZR5PNW4jtiztIvSRE"
+    };
 
-        window.changerClasse = function() {
-            if (ongletActif === 'drive') chargerDrive();
-            else afficherCoursManuel();
-        };
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const coursRef = ref(db, "cours");
 
-        window.afficherOnglet = function(onglet) {
-            ongletActif = onglet;
-            const tabDrive  = document.getElementById('tab-drive');
-            const tabManual = document.getElementById('tab-manual');
-            const contDrive  = document.getElementById('contenu-drive');
-            const contManual = document.getElementById('contenu-manual');
+    let tousLesCours = [];
+    let modeEleve = false;
 
-            if (onglet === 'drive') {
-                tabDrive.style.backgroundColor  = '#2d6a9f';
-                tabDrive.style.color = 'white';
-                tabDrive.className = 'px-4 py-2 rounded-full text-sm font-bold text-white transition';
-                tabManual.style.backgroundColor = '';
-                tabManual.className = 'px-4 py-2 rounded-full text-sm font-bold bg-white text-gray-500 border border-gray-200 transition hover:border-gray-400';
-                contDrive.classList.remove('hidden');
-                contManual.classList.add('hidden');
-                chargerDrive();
-            } else {
-                tabManual.style.backgroundColor = '#c0392b';
-                tabManual.style.color = 'white';
-                tabManual.className = 'px-4 py-2 rounded-full text-sm font-bold text-white transition';
-                tabDrive.style.backgroundColor = '';
-                tabDrive.className = 'px-4 py-2 rounded-full text-sm font-bold bg-white text-gray-500 border border-gray-200 transition hover:border-gray-400';
-                contManual.classList.remove('hidden');
-                contDrive.classList.add('hidden');
-                afficherCoursManuel();
-            }
-        };
+    onValue(coursRef, (snapshot) => {
+        tousLesCours = [];
+        if (snapshot.exists()) {
+            snapshot.forEach((child) => tousLesCours.push(child.val()));
+            tousLesCours.sort((a, b) => b.date - a.date);
+        }
+        if (modeEleve) afficherCoursEleve();
+        else afficherCoursProf();
+    }, (error) => console.error("Erreur DB:", error.message));
 
-        // Lecture automatique du dossier Google Drive
-        async function chargerDrive() {
-            const classeChoisie = document.getElementById('classe-eleve').value;
-            const folderId = DRIVE_FOLDERS[classeChoisie];
-            const liste = document.getElementById('liste-drive');
+    window.ouvrirEspace = function(role) {
+        document.getElementById("selection-role").style.display = "none";
+        if (role === "prof") {
+            modeEleve = false;
+            document.getElementById("prof-ui").classList.remove("hidden");
+        } else {
+            modeEleve = true;
+            document.getElementById("eleve-ui").classList.remove("hidden");
+            afficherCoursEleve();
+        }
+    };
 
-            liste.innerHTML = `<div class="col-span-3 flex justify-center py-10"><div class="spinner"></div></div>`;
+    window.afficherCoursEleve = function() {
+        const selectEl = document.getElementById("classe-eleve");
+        const liste = document.getElementById("liste-cours-eleve");
+        const lienDrive = document.getElementById("lien-drive");
+        if (!selectEl || !liste) return;
 
-            try {
-                const url = `https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents+and+trashed=false&fields=files(id,name,mimeType,modifiedTime)&orderBy=modifiedTime+desc&key=${DRIVE_API_KEY}`;
-                const res = await fetch(url);
-                const data = await res.json();
+        const classeChoisie = selectEl.value;
 
-                if (data.error) {
-                    liste.innerHTML = `
-                        <div class="col-span-3 bg-red-50 border border-red-200 rounded-xl p-6 text-center">
-                            <p class="font-bold text-red-700">⚠️ Dossier Drive non accessible</p>
-                            <p class="text-red-500 text-sm mt-1">Assure-toi que le dossier est partagé en mode "Tout le monde avec le lien"</p>
-                            <p class="text-red-400 text-xs mt-2 font-mono">${data.error.message}</p>
-                        </div>`;
-                    return;
-                }
+        // Mise a jour du lien Drive selon la classe
+        lienDrive.href = DRIVE_FOLDERS[classeChoisie];
 
-                if (!data.files || data.files.length === 0) {
-                    liste.innerHTML = `
-                        <div class="col-span-3 bg-white rounded-xl p-10 text-center shadow-sm border border-gray-100">
-                            <div class="text-5xl mb-3">📭</div>
-                            <p class="font-semibold text-gray-500">Aucun fichier dans ce dossier.</p>
-                        </div>`;
-                    return;
-                }
+        // Documents manuels filtres par classe
+        const coursFiltres = tousLesCours.filter(c => c.classe === classeChoisie);
+        liste.innerHTML = "";
 
-                liste.innerHTML = '';
-                data.files.forEach(file => {
-                    const lien = `https://drive.google.com/file/d/${file.id}/view`;
-                    const { icone, couleur } = getFileStyle(file.mimeType, file.name);
-                    const date = new Date(file.modifiedTime).toLocaleDateString('fr-FR');
-
-                    liste.innerHTML += `
-                        <div class="card-hover bg-white p-5 rounded-2xl shadow-sm border border-gray-100 border-t-4 flex flex-col" style="border-top-color:${couleur}">
-                            <div class="text-3xl mb-3">${icone}</div>
-                            <h4 class="font-bold text-gray-700 flex-1 text-sm leading-snug">${file.name}</h4>
-                            <p class="text-xs text-gray-400 mt-1 mb-3">Modifié le ${date}</p>
-                            <a href="${lien}" target="_blank" rel="noopener noreferrer"
-                               class="inline-block w-full text-center py-2 px-4 rounded-lg text-sm font-bold text-white transition hover:opacity-90"
-                               style="background-color:${couleur}">
-                               🔗 Ouvrir le document
-                            </a>
-                        </div>`;
-                });
-
-            } catch(e) {
-                liste.innerHTML = `
-                    <div class="col-span-3 bg-red-50 border border-red-200 rounded-xl p-6 text-center">
-                        <p class="font-bold text-red-700">❌ Erreur de connexion</p>
-                        <p class="text-red-500 text-xs mt-1">${e.message}</p>
-                    </div>`;
-            }
+        if (coursFiltres.length === 0) {
+            liste.innerHTML = "<p class='text-gray-400 italic text-sm'>Aucun document additionnel pour cette classe.</p>";
+            return;
         }
 
-        function getFileStyle(mimeType, name) {
-            if (mimeType === 'application/pdf' || name.endsWith('.pdf'))
-                return { icone: '📄', couleur: '#c0392b' };
-            if (mimeType.includes('spreadsheet') || name.endsWith('.xlsx'))
-                return { icone: '📊', couleur: '#1e7e34' };
-            if (mimeType.includes('presentation') || name.endsWith('.pptx'))
-                return { icone: '📑', couleur: '#d67b00' };
-            if (mimeType.includes('document') || name.endsWith('.docx'))
-                return { icone: '📝', couleur: '#2d6a9f' };
-            if (mimeType.includes('video'))
-                return { icone: '🎥', couleur: '#6c3483' };
-            if (mimeType.includes('image'))
-                return { icone: '🖼️', couleur: '#117a8b' };
-            return { icone: '📁', couleur: '#6c757d' };
-        }
-
-        window.afficherCoursManuel = function() {
-            const classeChoisie = document.getElementById('classe-eleve').value;
-            const liste = document.getElementById('liste-cours-eleve');
-            if (!liste) return;
-
-            const coursFiltres = tousLesCours.filter(c => c.classe === classeChoisie);
-            liste.innerHTML = '';
-
-            if (coursFiltres.length === 0) {
-                liste.innerHTML = `
-                    <div class="col-span-3 bg-white rounded-xl p-10 text-center shadow-sm border border-gray-100">
-                        <div class="text-5xl mb-3">📭</div>
-                        <p class="font-semibold text-gray-500">Aucun document pour cette classe.</p>
-                    </div>`;
-                return;
-            }
-
-            const config = {
-                "Cours PDF": { icone: "📚", couleur: "#2d6a9f" },
-                "Exercice":  { icone: "📝", couleur: "#c0392b" },
-                "Video":     { icone: "🎥", couleur: "#6c757d" }
-            };
-
-            coursFiltres.forEach(data => {
-                const cfg = config[data.type] || { icone: "📄", couleur: "#2d6a9f" };
-                const boutonLien = data.lien
-                    ? `<a href="${data.lien}" target="_blank" style="background-color:${cfg.couleur}"
-                          class="mt-auto inline-block w-full text-center py-2 px-4 rounded-lg text-sm font-bold text-white hover:opacity-90 transition">
-                          🔗 Ouvrir
-                       </a>`
-                    : `<span class="mt-auto text-xs text-gray-300 italic text-center block pt-3">Pas de lien</span>`;
-
-                liste.innerHTML += `
-                    <div class="card-hover bg-white p-5 rounded-2xl shadow-sm border border-gray-100 border-t-4 flex flex-col" style="border-top-color:${cfg.couleur}">
-                        <div class="text-3xl mb-3">${cfg.icone}</div>
-                        <h4 class="font-bold text-gray-700 flex-1">${data.titre}</h4>
-                        <p class="text-xs text-gray-400 mt-1 mb-3">${data.type}</p>
-                        ${boutonLien}
-                    </div>`;
-            });
+        const config = {
+            "Cours PDF": { icone: "&#128218;", couleur: "#2d6a9f" },
+            "Exercice":  { icone: "&#128221;", couleur: "#c0392b" },
+            "Video":     { icone: "&#127909;", couleur: "#6c757d" }
         };
 
-        window.publier = async function() {
-            const titre = document.getElementById('titre-cours').value.trim();
-            const type  = document.getElementById('type-cours').value;
-            const classe = document.getElementById('classe-concernee').value;
-            const lien  = document.getElementById('lien-cours').value.trim();
+        coursFiltres.forEach(data => {
+            const cfg = config[data.type] || { icone: "&#128196;", couleur: "#2d6a9f" };
+            const boutonLien = data.lien
+                ? "<a href='" + data.lien + "' target='_blank' style='background-color:" + cfg.couleur + "' class='mt-auto inline-block w-full text-center py-2 px-4 rounded-lg text-sm font-bold text-white hover:opacity-90 transition'>Ouvrir</a>"
+                : "<span class='mt-auto text-xs text-gray-300 italic text-center block pt-3'>Pas de lien</span>";
 
-            if (!titre) { alert("⚠️ Veuillez indiquer un titre."); return; }
-            if (lien && !lien.startsWith('http')) { alert("⚠️ Le lien doit commencer par https://"); return; }
+            liste.innerHTML += "<div class='card-hover bg-white p-5 rounded-2xl shadow-sm border border-gray-100 border-t-4 flex flex-col' style='border-top-color:" + cfg.couleur + "'><div class='text-3xl mb-3'>" + cfg.icone + "</div><h4 class='font-bold text-gray-700 flex-1'>" + data.titre + "</h4><p class='text-xs text-gray-400 mt-1 mb-3'>" + data.type + "</p>" + boutonLien + "</div>";
+        });
+    };
 
-            try {
-                await push(coursRef, { titre, type, classe, lien: lien || null, date: new Date().getTime() });
-                document.getElementById('titre-cours').value = '';
-                document.getElementById('lien-cours').value = '';
-                alert("✅ Publié !");
-            } catch(e) { alert("❌ Erreur : " + e.message); }
-        };
+    window.publier = async function() {
+        const titre  = document.getElementById("titre-cours").value.trim();
+        const type   = document.getElementById("type-cours").value;
+        const classe = document.getElementById("classe-concernee").value;
+        const lien   = document.getElementById("lien-cours").value.trim();
+        if (!titre) { alert("Veuillez indiquer un titre."); return; }
+        if (lien && !lien.startsWith("http")) { alert("Le lien doit commencer par https://"); return; }
+        try {
+            await push(coursRef, { titre, type, classe, lien: lien || null, date: new Date().getTime() });
+            document.getElementById("titre-cours").value = "";
+            document.getElementById("lien-cours").value = "";
+            alert("Publie !");
+        } catch(e) { alert("Erreur : " + e.message); }
+    };
 
-        function afficherCoursProf() {
-            const liste = document.getElementById('liste-cours-prof');
-            if (!liste) return;
-            const classeLabels = { "2nd-eco": "2ème Éco", "3rd-eco": "3ème Éco", "bac-gestion": "Bac Gestion" };
-            liste.innerHTML = tousLesCours.length === 0 ? '<p class="text-gray-400 italic">Aucun document publié.</p>' : '';
-            tousLesCours.forEach(data => {
-                const lienHtml = data.lien
-                    ? `<a href="${data.lien}" target="_blank" class="text-xs font-semibold ml-2 hover:underline" style="color:#2d6a9f">🔗 Voir</a>`
-                    : `<span class="text-gray-300 text-xs ml-2">sans lien</span>`;
-                liste.innerHTML += `
-                    <div class="p-3 border-b border-gray-100 flex justify-between items-center gap-2">
-                        <div><span class="font-semibold text-gray-700">${data.titre}</span>${lienHtml}</div>
-                        <span class="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded-full whitespace-nowrap">
-                            ${data.type} · ${classeLabels[data.classe] || data.classe}
-                        </span>
-                    </div>`;
-            });
-        }
-    </script>
+    function afficherCoursProf() {
+        const liste = document.getElementById("liste-cours-prof");
+        if (!liste) return;
+        const labels = { "2nd-eco": "2eme Eco", "3rd-eco": "3eme Eco", "bac-gestion": "Bac Gestion" };
+        liste.innerHTML = tousLesCours.length === 0 ? "<p class='text-gray-400 italic'>Aucun document publie.</p>" : "";
+        tousLesCours.forEach(data => {
+            const lienHtml = data.lien
+                ? "<a href='" + data.lien + "' target='_blank' class='text-xs font-semibold ml-2 hover:underline' style='color:#2d6a9f'>Voir</a>"
+                : "<span class='text-gray-300 text-xs ml-2'>sans lien</span>";
+            liste.innerHTML += "<div class='p-3 border-b border-gray-100 flex justify-between items-center gap-2'><div><span class='font-semibold text-gray-700'>" + data.titre + "</span>" + lienHtml + "</div><span class='text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded-full whitespace-nowrap'>" + data.type + " - " + (labels[data.classe] || data.classe) + "</span></div>";
+        });
+    }
+</script>
 </body>
 </html>
