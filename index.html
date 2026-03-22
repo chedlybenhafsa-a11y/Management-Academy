@@ -2,6 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Management Academy</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -25,23 +26,47 @@
 </nav>
 
 <!-- SELECTION ROLE -->
-<div id="selection-role" class="container mx-auto mt-20 text-center px-4 max-w-2xl">
-    <div class="mb-2 text-sm font-semibold tracking-widest uppercase" style="color:#c0392b">Mr Chedly Ben Hafsa</div>
-    <h2 class="text-3xl font-extrabold mb-2" style="color:#2d6a9f">Espace de Gestion Pedagogique</h2>
-    <p class="text-gray-500 mb-12">Apprendre - Reussir - Grandir</p>
-    <div class="flex flex-col sm:flex-row justify-center gap-8">
-        <button onclick="ouvrirEspace('prof')" class="card-hover bg-white p-8 rounded-2xl shadow-md border-t-4 w-60 mx-auto sm:mx-0" style="border-color:#2d6a9f">
-            <div class="text-5xl mb-4">&#128104;&#8205;&#127979;</div>
-            <span class="font-bold text-lg" style="color:#2d6a9f">Espace Professeur</span>
-            <p class="text-gray-400 text-sm mt-2">Publier et gerer vos cours</p>
-        </button>
-        <button onclick="ouvrirEspace('eleve')" class="card-hover bg-white p-8 rounded-2xl shadow-md border-t-4 w-60 mx-auto sm:mx-0" style="border-color:#c0392b">
-            <div class="text-5xl mb-4">&#127891;</div>
-            <span class="font-bold text-lg" style="color:#c0392b">Espace Eleve</span>
-            <p class="text-gray-400 text-sm mt-2">Consulter vos ressources</p>
-        </button>
+<div id="selection-role" class="container mx-auto px-4 max-w-4xl py-12">
+
+    <div class="text-center mb-10">
+        <div class="mb-2 text-sm font-semibold tracking-widest uppercase" style="color:#c0392b">Mr Chedly Ben Hafsa</div>
+        <h2 class="text-3xl font-extrabold mb-2" style="color:#2d6a9f">Espace de Gestion Pedagogique</h2>
+        <p class="text-gray-500">Apprendre - Reussir - Grandir</p>
     </div>
-    <p class="mt-16 text-xs text-gray-400">Lycee Secondaire de Beni Khyar - Enseignant de Gestion</p>
+
+    <!-- QR code + boutons cote a cote sur grand ecran -->
+    <div class="flex flex-col lg:flex-row items-center justify-center gap-10">
+
+        <!-- Boutons Prof / Eleve -->
+        <div class="flex flex-col sm:flex-row gap-6">
+            <button onclick="ouvrirEspace('prof')" class="card-hover bg-white p-8 rounded-2xl shadow-md border-t-4 w-56 text-center" style="border-color:#2d6a9f">
+                <div class="text-5xl mb-4">&#128104;&#8205;&#127979;</div>
+                <span class="font-bold text-lg block" style="color:#2d6a9f">Espace Professeur</span>
+                <p class="text-gray-400 text-sm mt-2">Publier et gerer vos cours</p>
+            </button>
+            <button onclick="ouvrirEspace('eleve')" class="card-hover bg-white p-8 rounded-2xl shadow-md border-t-4 w-56 text-center" style="border-color:#c0392b">
+                <div class="text-5xl mb-4">&#127891;</div>
+                <span class="font-bold text-lg block" style="color:#c0392b">Espace Eleve</span>
+                <p class="text-gray-400 text-sm mt-2">Consulter vos ressources</p>
+            </button>
+        </div>
+
+        <!-- Separateur vertical -->
+        <div class="hidden lg:block w-px h-48 bg-gray-200"></div>
+
+        <!-- QR Code -->
+        <div class="bg-white p-5 rounded-2xl shadow-md border border-gray-100 text-center">
+            <p class="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-3">Acceder via mobile</p>
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://chedlybenhafsa-a11y.github.io/Management-Academy/"
+                 alt="QR Code Management Academy"
+                 class="w-36 h-36 mx-auto rounded-lg"
+            />
+            <p class="text-xs text-gray-400 mt-3 font-mono">chedlybenhafsa-a11y.github.io</p>
+            <p class="text-xs text-gray-400">/Management-Academy/</p>
+        </div>
+    </div>
+
+    <p class="text-center mt-10 text-xs text-gray-400">Lycee Secondaire de Beni Khyar - Enseignant de Gestion</p>
 </div>
 
 <!-- ESPACE PROFESSEUR -->
@@ -116,10 +141,8 @@
         </select>
     </div>
 
-    <!-- Zone Drive dynamique -->
     <div id="zone-drive"></div>
 
-    <!-- Documents manuels -->
     <div class="flex items-center gap-3 mt-6 mb-4">
         <div class="w-1 h-6 rounded" style="background-color:#c0392b"></div>
         <h3 class="font-bold text-gray-600">Autres ressources publiees</h3>
@@ -141,7 +164,6 @@
         appId: "1:470383410886:web:14a614e030b0028bb821c7"
     };
 
-    // Configuration des dossiers Drive par classe
     const DRIVE_CONFIG = {
         "2nd-eco": [
             { label: "Documents de cours", url: "https://drive.google.com/drive/folders/1CoXbWBDUzUqkXhtcTj39yMYGgoWMkktL", couleur: "#2d6a9f" }
@@ -188,12 +210,12 @@
         const liste = document.getElementById("liste-cours-eleve");
         if (!zoneDrive || !liste) return;
 
-        // Affichage des boutons Drive selon la classe
         const dossiers = DRIVE_CONFIG[classeChoisie] || [];
         if (dossiers.length === 0) {
             zoneDrive.innerHTML = "<div class='bg-gray-50 border border-gray-200 rounded-xl p-5 text-center text-gray-400 text-sm'>&#128193; Aucun dossier Drive disponible pour cette classe pour l instant.</div>";
         } else {
-            let html = "<div class='grid grid-cols-1 sm:grid-cols-" + dossiers.length + " gap-4 mb-2'>";
+            let cols = dossiers.length === 1 ? "1" : "2";
+            let html = "<div class='grid grid-cols-1 sm:grid-cols-" + cols + " gap-4 mb-2'>";
             dossiers.forEach(function(d) {
                 html += "<a href='" + d.url + "' target='_blank' rel='noopener noreferrer' class='flex items-center justify-between p-5 rounded-2xl text-white shadow-md hover:opacity-90 transition card-hover' style='background-color:" + d.couleur + "'>";
                 html += "<div><p class='text-white/70 text-xs uppercase tracking-widest mb-1'>Documents a telecharger</p><h3 class='text-lg font-bold'>" + d.label + "</h3></div>";
@@ -203,7 +225,6 @@
             zoneDrive.innerHTML = html;
         }
 
-        // Documents manuels
         const coursFiltres = tousLesCours.filter(c => c.classe === classeChoisie);
         liste.innerHTML = "";
         if (coursFiltres.length === 0) {
