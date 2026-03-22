@@ -70,9 +70,7 @@
             </select>
             <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Lien</label>
             <input type="url" id="lien-cours" placeholder="https://drive.google.com/..." class="w-full border border-gray-200 p-2.5 mb-5 rounded-lg text-gray-700">
-            <button onclick="publier()" class="w-full text-white p-3 rounded-xl font-bold transition" style="background-color:#2d6a9f">
-                Publier
-            </button>
+            <button onclick="publier()" class="w-full text-white p-3 rounded-xl font-bold transition" style="background-color:#2d6a9f">Publier</button>
         </div>
         <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
             <h3 class="font-bold mb-5 text-gray-700">Documents publies manuellement</h3>
@@ -82,31 +80,21 @@
         </div>
     </div>
 
-    <!-- Info dossiers Drive -->
+    <!-- Recap dossiers Drive -->
     <div class="mt-6 bg-blue-50 border border-blue-200 rounded-xl p-5">
         <p class="font-bold text-blue-800 mb-3">&#128193; Dossiers Google Drive connectes</p>
-        <p class="text-blue-600 text-xs mb-4">Les eleves accedent directement a ces dossiers Drive en un clic.</p>
         <div class="space-y-2">
             <div class="flex items-center justify-between bg-white rounded-lg p-3 border border-blue-100">
-                <span class="font-semibold text-blue-700 text-sm">2eme Economie Gestion</span>
-                <a href="https://drive.google.com/drive/folders/1CoXbWBDUzUqkXhtcTj39yMYGgoWMkktL" target="_blank"
-                   class="text-xs px-3 py-1 rounded-full text-white font-bold" style="background-color:#2d6a9f">
-                   Voir le dossier
-                </a>
+                <span class="font-semibold text-blue-700 text-sm">2eme Eco Gestion</span>
+                <a href="https://drive.google.com/drive/folders/1CoXbWBDUzUqkXhtcTj39yMYGgoWMkktL" target="_blank" class="text-xs px-3 py-1 rounded-full text-white font-bold" style="background-color:#2d6a9f">Voir</a>
             </div>
             <div class="flex items-center justify-between bg-white rounded-lg p-3 border border-blue-100">
-                <span class="font-semibold text-blue-700 text-sm">3eme Economie Gestion</span>
-                <a href="https://drive.google.com/drive/folders/1oxDFw6xgccN8f4Iw2Idod9A3QkG-TqQj" target="_blank"
-                   class="text-xs px-3 py-1 rounded-full text-white font-bold" style="background-color:#2d6a9f">
-                   Voir le dossier
-                </a>
+                <span class="font-semibold text-blue-700 text-sm">Bac — Series d exercices</span>
+                <a href="https://drive.google.com/drive/folders/1IpWAipw1_PryyZyZR5PNW4jtiztIvSRE" target="_blank" class="text-xs px-3 py-1 rounded-full text-white font-bold" style="background-color:#2d6a9f">Voir</a>
             </div>
             <div class="flex items-center justify-between bg-white rounded-lg p-3 border border-blue-100">
-                <span class="font-semibold text-blue-700 text-sm">Bac Gestion</span>
-                <a href="https://drive.google.com/drive/folders/1IpWAipw1_PryyZyZR5PNW4jtiztIvSRE" target="_blank"
-                   class="text-xs px-3 py-1 rounded-full text-white font-bold" style="background-color:#2d6a9f">
-                   Voir le dossier
-                </a>
+                <span class="font-semibold text-blue-700 text-sm">Bac — Devoirs de maison</span>
+                <a href="https://drive.google.com/drive/folders/1oxDFw6xgccN8f4Iw2Idod9A3QkG-TqQj" target="_blank" class="text-xs px-3 py-1 rounded-full text-white font-bold" style="background-color:#c0392b">Voir</a>
             </div>
         </div>
     </div>
@@ -128,22 +116,11 @@
         </select>
     </div>
 
-    <!-- Carte Drive en haut - acces direct au dossier -->
-    <div id="carte-drive" class="mb-6 p-6 rounded-2xl text-white shadow-md flex flex-col sm:flex-row items-center justify-between gap-4" style="background-color:#2d6a9f">
-        <div>
-            <p class="text-white/70 text-xs uppercase tracking-widest mb-1">Documents a imprimer</p>
-            <h3 class="text-xl font-bold">Dossier Google Drive</h3>
-            <p class="text-white/80 text-sm mt-1">Tous les documents de ta classe disponibles en un clic</p>
-        </div>
-        <a id="lien-drive" href="#" target="_blank" rel="noopener noreferrer"
-           class="whitespace-nowrap px-6 py-3 rounded-xl font-bold text-sm transition hover:opacity-90 flex items-center gap-2"
-           style="background-color:#c0392b">
-            &#128193; Ouvrir le dossier Drive
-        </a>
-    </div>
+    <!-- Zone Drive dynamique -->
+    <div id="zone-drive"></div>
 
-    <!-- Documents publies manuellement -->
-    <div class="flex items-center gap-3 mb-4">
+    <!-- Documents manuels -->
+    <div class="flex items-center gap-3 mt-6 mb-4">
         <div class="w-1 h-6 rounded" style="background-color:#c0392b"></div>
         <h3 class="font-bold text-gray-600">Autres ressources publiees</h3>
     </div>
@@ -164,10 +141,16 @@
         appId: "1:470383410886:web:14a614e030b0028bb821c7"
     };
 
-    const DRIVE_FOLDERS = {
-        "2nd-eco":     "https://drive.google.com/drive/folders/1CoXbWBDUzUqkXhtcTj39yMYGgoWMkktL",
-        "3rd-eco":     "https://drive.google.com/drive/folders/1oxDFw6xgccN8f4Iw2Idod9A3QkG-TqQj",
-        "bac-gestion": "https://drive.google.com/drive/folders/1IpWAipw1_PryyZyZR5PNW4jtiztIvSRE"
+    // Configuration des dossiers Drive par classe
+    const DRIVE_CONFIG = {
+        "2nd-eco": [
+            { label: "Documents de cours", url: "https://drive.google.com/drive/folders/1CoXbWBDUzUqkXhtcTj39yMYGgoWMkktL", couleur: "#2d6a9f" }
+        ],
+        "3rd-eco": [],
+        "bac-gestion": [
+            { label: "Series d exercices", url: "https://drive.google.com/drive/folders/1IpWAipw1_PryyZyZR5PNW4jtiztIvSRE", couleur: "#2d6a9f" },
+            { label: "Devoirs de maison",  url: "https://drive.google.com/drive/folders/1oxDFw6xgccN8f4Iw2Idod9A3QkG-TqQj", couleur: "#c0392b" }
+        ]
     };
 
     const app = initializeApp(firebaseConfig);
@@ -200,38 +183,44 @@
     };
 
     window.afficherCoursEleve = function() {
-        const selectEl = document.getElementById("classe-eleve");
+        const classeChoisie = document.getElementById("classe-eleve").value;
+        const zoneDrive = document.getElementById("zone-drive");
         const liste = document.getElementById("liste-cours-eleve");
-        const lienDrive = document.getElementById("lien-drive");
-        if (!selectEl || !liste) return;
+        if (!zoneDrive || !liste) return;
 
-        const classeChoisie = selectEl.value;
+        // Affichage des boutons Drive selon la classe
+        const dossiers = DRIVE_CONFIG[classeChoisie] || [];
+        if (dossiers.length === 0) {
+            zoneDrive.innerHTML = "<div class='bg-gray-50 border border-gray-200 rounded-xl p-5 text-center text-gray-400 text-sm'>&#128193; Aucun dossier Drive disponible pour cette classe pour l instant.</div>";
+        } else {
+            let html = "<div class='grid grid-cols-1 sm:grid-cols-" + dossiers.length + " gap-4 mb-2'>";
+            dossiers.forEach(function(d) {
+                html += "<a href='" + d.url + "' target='_blank' rel='noopener noreferrer' class='flex items-center justify-between p-5 rounded-2xl text-white shadow-md hover:opacity-90 transition card-hover' style='background-color:" + d.couleur + "'>";
+                html += "<div><p class='text-white/70 text-xs uppercase tracking-widest mb-1'>Documents a telecharger</p><h3 class='text-lg font-bold'>" + d.label + "</h3></div>";
+                html += "<span class='text-3xl'>&#128193;</span></a>";
+            });
+            html += "</div>";
+            zoneDrive.innerHTML = html;
+        }
 
-        // Mise a jour du lien Drive selon la classe
-        lienDrive.href = DRIVE_FOLDERS[classeChoisie];
-
-        // Documents manuels filtres par classe
+        // Documents manuels
         const coursFiltres = tousLesCours.filter(c => c.classe === classeChoisie);
         liste.innerHTML = "";
-
         if (coursFiltres.length === 0) {
             liste.innerHTML = "<p class='text-gray-400 italic text-sm'>Aucun document additionnel pour cette classe.</p>";
             return;
         }
-
         const config = {
             "Cours PDF": { icone: "&#128218;", couleur: "#2d6a9f" },
             "Exercice":  { icone: "&#128221;", couleur: "#c0392b" },
             "Video":     { icone: "&#127909;", couleur: "#6c757d" }
         };
-
         coursFiltres.forEach(data => {
             const cfg = config[data.type] || { icone: "&#128196;", couleur: "#2d6a9f" };
-            const boutonLien = data.lien
+            const bouton = data.lien
                 ? "<a href='" + data.lien + "' target='_blank' style='background-color:" + cfg.couleur + "' class='mt-auto inline-block w-full text-center py-2 px-4 rounded-lg text-sm font-bold text-white hover:opacity-90 transition'>Ouvrir</a>"
                 : "<span class='mt-auto text-xs text-gray-300 italic text-center block pt-3'>Pas de lien</span>";
-
-            liste.innerHTML += "<div class='card-hover bg-white p-5 rounded-2xl shadow-sm border border-gray-100 border-t-4 flex flex-col' style='border-top-color:" + cfg.couleur + "'><div class='text-3xl mb-3'>" + cfg.icone + "</div><h4 class='font-bold text-gray-700 flex-1'>" + data.titre + "</h4><p class='text-xs text-gray-400 mt-1 mb-3'>" + data.type + "</p>" + boutonLien + "</div>";
+            liste.innerHTML += "<div class='card-hover bg-white p-5 rounded-2xl shadow-sm border border-gray-100 border-t-4 flex flex-col' style='border-top-color:" + cfg.couleur + "'><div class='text-3xl mb-3'>" + cfg.icone + "</div><h4 class='font-bold text-gray-700 flex-1'>" + data.titre + "</h4><p class='text-xs text-gray-400 mt-1 mb-3'>" + data.type + "</p>" + bouton + "</div>";
         });
     };
 
