@@ -15,11 +15,6 @@
     </style>
 </head>
 <body>
-<script>
-    if (window.location.search.indexOf("v=3") === -1) {
-        window.location.replace(window.location.pathname + "?v=3");
-    }
-</script>
 
 <nav style="background-color:#2d6a9f" class="text-white px-6 py-4 shadow-md flex justify-between items-center">
     <div class="flex items-center gap-3">
@@ -63,7 +58,7 @@
         <!-- QR Code -->
         <div class="bg-white p-5 rounded-2xl shadow-md border border-gray-100 text-center">
             <p class="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-3">Acceder via mobile</p>
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://chedlybenhafsa-a11y.github.io/Management-Academy/"
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://chedlybenhafsa-a11y.github.io/Management-Academy/?v=3"
                  alt="QR Code Management Academy"
                  class="w-36 h-36 mx-auto rounded-lg"
             />
