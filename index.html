@@ -181,6 +181,7 @@
     const coursRef = ref(db, "cours");
 
     let tousLesCours = [];
+    let tousLesClesCours = [];
     let modeEleve = false;
 
     onValue(coursRef, (snapshot) => {
