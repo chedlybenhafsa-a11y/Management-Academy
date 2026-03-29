@@ -283,11 +283,19 @@
         if (!liste) return;
         const labels = { "2nd-eco": "2eme Eco", "3rd-eco": "3eme Eco", "bac-gestion": "Bac Gestion" };
         liste.innerHTML = tousLesCours.length === 0 ? "<p class='text-gray-400 italic'>Aucun document publie.</p>" : "";
-        tousLesCours.forEach(data => {
+        tousLesCours.forEach(function(data, index) {
+            const key = tousLesClesCours[index];
+            const classeLabel = labels[data.classe] || data.classe;
             const lienHtml = data.lien
                 ? "<a href='" + data.lien + "' target='_blank' class='text-xs font-semibold ml-2 hover:underline' style='color:#2d6a9f'>Voir</a>"
                 : "<span class='text-gray-300 text-xs ml-2'>sans lien</span>";
-            liste.innerHTML += "<div class='p-3 border-b border-gray-100 flex justify-between items-center gap-2'><div><span class='font-semibold text-gray-700'>" + data.titre + "</span>" + lienHtml + "</div><span class='text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded-full whitespace-nowrap'>" + data.type + " - " + (labels[data.classe] || data.classe) + "</span></div>";
+            const div = document.createElement("div");
+            div.className = "p-3 border-b border-gray-100 flex justify-between items-center gap-2";
+            div.innerHTML = "<div class='flex-1'><span class='font-semibold text-gray-700'>" + data.titre + "</span>" + lienHtml + "<span class='text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded-full ml-2'>" + data.type + " - " + classeLabel + "</span></div><button class='text-xs px-3 py-1 rounded-full text-white font-bold hover:opacity-80 transition' style='background-color:#c0392b; white-space:nowrap'>🗑 Supprimer</button>";
+            div.querySelector("button").addEventListener("click", function() {
+                window.supprimer(key, data.titre);
+            });
+            liste.appendChild(div);
         });
     }
 </script>
